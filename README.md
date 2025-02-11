@@ -1,9 +1,9 @@
 ---
 
 ### **1. Definir los Requisitos de Autenticación**
-   - Se utilizará **JWT (JSON Web Token)** para la autenticación.
-   - Roles de usuario: **admin, editor, lector**.
-   - Las contraseñas se almacenarán de forma segura usando **bcrypt**.
+Se utilizará **JWT (JSON Web Token)** para la autenticación.
+Roles de usuario: **admin, editor, lector**.
+Las contraseñas se almacenarán de forma segura usando **bcrypt**.
    
 ---
 
