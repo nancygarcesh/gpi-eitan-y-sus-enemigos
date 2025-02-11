@@ -33,7 +33,7 @@
   - Middleware para validar roles y permisos en cada endpoint.
   
 **Estructura del backend:**
-```
+
 backend/
 ├── src/
 │   ├── config/
@@ -53,14 +53,14 @@ backend/
 │   ├── server.js
 │   ├── .env
 │   ├── package.json
-```
+
 
 #### **Frontend (React.js con Context API)**
   - Formulario de login con validación.
   - Almacenamiento del token de forma segura en localStorage.
   
 **Estructura del frontend:**
-```
+
 frontend/
 ├── src/
 │   ├── api/
@@ -77,7 +77,7 @@ frontend/
 │   ├── App.js
 │   ├── index.js
 │   ├── package.json
-```
+
 
 #### **Base de Datos (MongoDB con Mongoose)**
   - Hashing seguro para contraseñas usando **bcrypt**.
