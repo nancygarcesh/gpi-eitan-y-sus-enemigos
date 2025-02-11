@@ -1,11 +1,10 @@
-
 ---
 
 ### **1. Definir los Requisitos de Autenticación**
-   - Determina qué tipo de autenticación usarás (ej. JWT, OAuth2, sesión basada en cookies, etc.).
-   - Identifica los roles de usuario y sus permisos (ej. admin, editor, lector).
-   - Asegura que las credenciales sean almacenadas de forma segura (ej. hashing con bcrypt, Argon2).
-
+   - Se utilizará **JWT (JSON Web Token)** para la autenticación.
+   - Roles de usuario: **admin, editor, lector**.
+   - Las contraseñas se almacenarán de forma segura usando **bcrypt**.
+   
 ---
 
 ### **2. Diseñar el Flujo de Autenticación**
@@ -13,47 +12,90 @@
       - El usuario ingresa su **email/usuario** y **contraseña**.
    2. **Validación y Verificación:**
       - Se valida la estructura de las credenciales.
-      - Se verifica la identidad consultando la base de datos.
-   3. **Generación del Token de Sesión (si aplica):**
-      - Se genera un **token JWT** o se inicia una sesión segura.
+      - Se verifica la identidad consultando la base de datos MongoDB.
+   3. **Generación del Token JWT:**
+      - Se genera un **token JWT** con una expiración de 1 hora.
    4. **Autorización para CRUD:**
-      - Se revisan los permisos del usuario antes de permitir la operación.
+      - Middleware para validar el token y los permisos del usuario.
    5. **Ejecución de la Operación CRUD:**
       - Si la autenticación y autorización son exitosas, se permite la operación.
    6. **Manejo de Errores:**
-      - Si la autenticación falla, se muestra un mensaje claro.
-      - Se implementa protección contra ataques de fuerza bruta.
+      - Mensajes claros en caso de credenciales incorrectas.
+      - Protección contra ataques de fuerza bruta con rate limiting.
 
 ---
 
 ### **3. Implementación Técnica**
-Dependiendo de tu stack tecnológico, aquí hay algunos ejemplos:
 
-- **Backend (Node.js con Express & JWT)**
-  - Usa **bcrypt** para encriptar contraseñas.
-  - Usa **jsonwebtoken** para tokens de sesión.
+#### **Backend (Node.js con Express & JWT)**
+  - Uso de **bcrypt** para encriptar contraseñas.
+  - Uso de **jsonwebtoken** para generar y validar tokens.
   - Middleware para validar roles y permisos en cada endpoint.
+  
+**Estructura del backend:**
+```
+backend/
+├── src/
+│   ├── config/
+│   │   ├── db.js
+│   │   ├── env.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   ├── middlewares/
+│   │   ├── authMiddleware.js
+│   ├── models/
+│   │   ├── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── userRoutes.js
+│   ├── app.js
+│   ├── server.js
+│   ├── .env
+│   ├── package.json
+```
 
-- **Frontend (React/Vue/Angular)**
+#### **Frontend (React.js con Context API)**
   - Formulario de login con validación.
-  - Almacenar tokens de forma segura (HttpOnly cookies, localStorage).
+  - Almacenamiento del token de forma segura en localStorage.
+  
+**Estructura del frontend:**
+```
+frontend/
+├── src/
+│   ├── api/
+│   │   ├── authApi.js
+│   ├── components/
+│   │   ├── Login.js
+│   │   ├── Register.js
+│   │   ├── Dashboard.js
+│   ├── context/
+│   │   ├── AuthContext.js
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── Profile.js
+│   ├── App.js
+│   ├── index.js
+│   ├── package.json
+```
 
-- **Base de Datos (SQL o NoSQL)**
-  - Usa hashing seguro para contraseñas.
-  - Relaciona usuarios con roles y permisos.
+#### **Base de Datos (MongoDB con Mongoose)**
+  - Hashing seguro para contraseñas usando **bcrypt**.
+  - Relación entre usuarios y roles en la base de datos.
 
 ---
 
 ### **4. Seguridad y Buenas Prácticas**
-   - **Protección contra ataques:** Implementar protección contra ataques de fuerza bruta (ej. rate limiting).
-   - **Uso de HTTPS:** Para cifrar la comunicación entre cliente y servidor.
+   - **Protección contra ataques:** Implementar **rate limiting**.
+   - **Uso de HTTPS:** Para cifrar la comunicación.
    - **Expiración de Tokens:** Para sesiones seguras.
-   - **MFA (Multi-Factor Authentication):** Para mayor seguridad.
+   - **Multi-Factor Authentication (MFA):** Para mayor seguridad.
 
 ---
 
 ### **5. Documentación y Pruebas**
-   - Documenta los endpoints de autenticación (Swagger, Postman).
-   - Implementa **pruebas unitarias y de integración** para verificar el flujo.
+   - Documentar los endpoints de autenticación usando **Swagger** o **Postman**.
+   - Implementar **pruebas unitarias y de integración** para verificar el flujo.
 
 ---
+
