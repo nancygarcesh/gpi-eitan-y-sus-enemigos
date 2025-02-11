@@ -1,10 +1,11 @@
+
 ---
 
 ### **1. Definir los Requisitos de Autenticación**
-Se utilizará **JWT (JSON Web Token)** para la autenticación.
-Roles de usuario: **admin, editor, lector**.
-Las contraseñas se almacenarán de forma segura usando **bcrypt**.
-   
+   - Se utilizará **JWT (JSON Web Token)** para la autenticación.
+   - Roles de usuario: **admin, editor, lector**.
+   - Las contraseñas se almacenarán de forma segura usando **bcrypt**.
+
 ---
 
 ### **2. Diseñar el Flujo de Autenticación**
@@ -31,9 +32,9 @@ Las contraseñas se almacenarán de forma segura usando **bcrypt**.
   - Uso de **bcrypt** para encriptar contraseñas.
   - Uso de **jsonwebtoken** para generar y validar tokens.
   - Middleware para validar roles y permisos en cada endpoint.
-  
-**Estructura del backend:**
 
+**Estructura del backend:**
+```
 backend/
 ├── src/
 │   ├── config/
@@ -53,14 +54,14 @@ backend/
 │   ├── server.js
 │   ├── .env
 │   ├── package.json
-
+```
 
 #### **Frontend (React.js con Context API)**
   - Formulario de login con validación.
   - Almacenamiento del token de forma segura en localStorage.
-  
-**Estructura del frontend:**
 
+**Estructura del frontend:**
+```
 frontend/
 ├── src/
 │   ├── api/
@@ -77,7 +78,7 @@ frontend/
 │   ├── App.js
 │   ├── index.js
 │   ├── package.json
-
+```
 
 #### **Base de Datos (MongoDB con Mongoose)**
   - Hashing seguro para contraseñas usando **bcrypt**.
