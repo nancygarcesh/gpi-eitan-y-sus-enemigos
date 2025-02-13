@@ -15,19 +15,25 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await validateUserPassword(email, password);  // Usamos validateUserPassword ahora
+    try {
+        const { email, password } = req.body;
+        const user = await validateUserPassword(email, password);
 
-    if (!user) return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+        if (!user) return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    if (user.is_two_factor_enabled) {
-        return res.status(200).json({ message: 'Se requiere autenticación 2FA', userId: user.id });
+        if (user.is_two_factor_enabled) {
+            return res.status(200).json({ message: 'Se requiere autenticación 2FA', userId: user.id });
+        }
+
+        res.json({ token });
+    } catch (error) {
+        console.error('Error en login:', error);
+        res.status(500).json({ message: 'Error en el servidor', error });
     }
-
-    res.json({ token });
 };
+
 
 const enable2FA = async (req, res) => {
     const { userId } = req.body;

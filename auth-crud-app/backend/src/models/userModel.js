@@ -21,11 +21,14 @@ const updateTwoFactorSecret = async (userId, secret) => {
 };
 
 // Validar la contraseña de un usuario
-const validateUserPassword = async (email, passwordHash) => {
+const validateUserPassword = async (email, password) => {
     const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (rows.length === 0) return null;
-    const validPassword = await bcrypt.compare(passwordHash, rows[0].password);
+    const validPassword = await bcrypt.compare(password, rows[0].password);
     return validPassword ? rows[0] : null;
 };
+
+const bcrypt = require('bcryptjs');
+
 
 module.exports = { findUserByEmail, createUser, updateTwoFactorSecret, validateUserPassword };
