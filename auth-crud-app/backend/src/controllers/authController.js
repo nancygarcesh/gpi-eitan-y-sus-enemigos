@@ -16,11 +16,9 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    const user = await findUserByEmail(email);
-    if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
+    const user = await validateUserPassword(email, password);  // Usamos validateUserPassword ahora
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) return res.status(400).json({ message: 'Contraseña incorrecta' });
+    if (!user) return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
